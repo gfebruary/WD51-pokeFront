@@ -10,8 +10,10 @@ const useImportData = (url) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(url);
+        console.log("Fetched data:", response.data);
         setData(response.data);
       } catch (error) {
+        console.error("Error fetching data:", error);
         setError(error);
       } finally {
         setLoading(false);
@@ -20,6 +22,7 @@ const useImportData = (url) => {
 
     fetchData();
   }, [url]);
+
   return { data, error, loading };
 };
 
