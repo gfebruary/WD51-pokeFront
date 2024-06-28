@@ -13,13 +13,15 @@ const Pokedex = () => {
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown";
 
   //--------------------SHOW POKEMON ON BY DEFAULT
-  const showPokemon = true;
+  const showPokemon = false;
 
   const { data, error, loading } = useImportData(pokemonURL);
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full">Loading...</div>
+      <div className="flex items-center justify-center h-full">
+        Loading...This may take up to 2 minutes on first load
+      </div>
     );
   }
 
