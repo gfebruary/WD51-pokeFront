@@ -4,22 +4,23 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
   return (
     <>
       {loading ? (
-        <h1 className="text-center text-2xl">Loading...</h1>
+        <h1 className="text-2xl font-bold text-center">Loading...</h1>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {pokemon.map((item) => (
             <div
+              className="bg-white p-4 rounded shadow-lg cursor-pointer transform transition-transform hover:scale-105"
               key={item.id}
-              className="bg-white shadow-md rounded p-4 hover:bg-gray-100 cursor-pointer"
               onClick={() => infoPokemon(item)}
             >
-              <h2 className="text-lg font-bold">{item.id}</h2>
+              <h2 className="text-xl font-bold text-center capitalize">
+                {item.name}
+              </h2>
               <img
                 src={item.sprites.front_default}
                 alt={item.name}
-                className="w-full h-auto"
+                className="w-24 h-24 mx-auto"
               />
-              <h2 className="text-xl capitalize">{item.name}</h2>
             </div>
           ))}
         </div>
