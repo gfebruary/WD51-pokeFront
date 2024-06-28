@@ -5,6 +5,7 @@ const DamageCalculation = (attacker, defender) => {
   //const crit -> critical hit bonus
   //const type1 -> type1 of attack
   //const type2 -> type2 of attack
+  //const isSpecial -> check if special attack / damage needed
   const attackerAttack = attacker.base.Attack;
   const defenderDefense = defender.base.Defense;
 

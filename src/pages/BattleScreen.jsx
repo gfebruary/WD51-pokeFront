@@ -13,7 +13,7 @@ const BattleScreen = () => {
 
   const [playerPokemon, setPlayerPokemon] = useState(null);
   const [cpuPokemon, setCpuPokemon] = useState(null);
-  const [playerChoice, setPlayerChoice] = useState("");
+  const [playerChoice, setPlayerChoice] = useState("Rock");
   const [cpuChoice, setCpuChoice] = useState("");
   const [result, setResult] = useState("");
   const [damageMessage, setDamageMessage] = useState("");
@@ -27,22 +27,23 @@ const BattleScreen = () => {
   };
 
   const handleSubmit = () => {
+    // ------------------------Generate CPU choice ------------------------
     const randomCpuChoice = choices[Math.floor(Math.random() * choices.length)];
     setCpuChoice(randomCpuChoice);
 
-    // ------------------------- Determine the result -------------------------//
-    if (playerChoice === cpuChoice) {
+    // ------------------------Determine result using randomCpuChoice directly ------------------------
+    if (playerChoice === randomCpuChoice) {
       setDamageMessage("");
       setResult("It's a tie!");
     } else if (
-      (playerChoice === "Rock" && cpuChoice === "Scissors") ||
-      (playerChoice === "Paper" && cpuChoice === "Rock") ||
-      (playerChoice === "Scissors" && cpuChoice === "Paper")
+      (playerChoice === "Rock" && randomCpuChoice === "Scissors") ||
+      (playerChoice === "Paper" && randomCpuChoice === "Rock") ||
+      (playerChoice === "Scissors" && randomCpuChoice === "Paper")
     ) {
-      // -------------------------Player wins-------------------------//
-      setResult(`Player's ${playerChoice} beats CPU's ${cpuChoice}!`);
+      // ------------------------Player wins------------------------
+      setResult(`Player's ${playerChoice} beats CPU's ${randomCpuChoice}!`);
 
-      // -------------------------Calculate damage from player -------------------------//
+      // ------------------------Calculate damage from player------------------------
       const playerDamage = DamageCalculation(playerPokemon, cpuPokemon);
       setCpuPokemon((prev) => ({
         ...prev,
@@ -50,10 +51,10 @@ const BattleScreen = () => {
       }));
       setDamageMessage(`Player does ${playerDamage} damage!`);
     } else {
-      // -------------------------CPU wins-------------------------//
-      setResult(`CPU's ${cpuChoice} beats Player's ${playerChoice}!`);
+      // CPU wins
+      setResult(`CPU's ${randomCpuChoice} beats Player's ${playerChoice}!`);
 
-      // -------------------------Calculate damage from -------------------------//
+      // ------------------------Calculate damage from CPU ------------------------
       const cpuDamage = DamageCalculation(cpuPokemon, playerPokemon);
       setPlayerPokemon((prev) => ({
         ...prev,
@@ -94,7 +95,7 @@ const BattleScreen = () => {
         onCpuPokemonSelected={handleCpuPokemonSelected}
       />
       <div className="flex justify-around w-full mb-8">
-        {/* -------------------------Player -------------------------*/}
+        {/* ------------------------Player ------------------------*/}
         {playerPokemon && (
           <div className="flex flex-col items-center">
             <img
@@ -117,6 +118,7 @@ const BattleScreen = () => {
                     name="playerChoice"
                     value={choice}
                     onChange={(e) => setPlayerChoice(e.target.value)}
+                    checked={playerChoice === choice}
                   />
                   {choice}
                 </label>
@@ -130,7 +132,7 @@ const BattleScreen = () => {
           </div>
         )}
 
-        {/* -------------------------CPU -------------------------*/}
+        {/* ------------------------CPU ------------------------*/}
         {cpuPokemon && (
           <div className="flex flex-col items-center">
             <img
@@ -152,9 +154,9 @@ const BattleScreen = () => {
         )}
       </div>
 
-      {/* -------------------------Result -------------------------*/}
+      {/*------------------------ Result------------------------ */}
       {result && <h2>{result}</h2>}
-      {/* -------------------------Damage Message------------------------- */}
+      {/* ------------------------Damage Message ------------------------ */}
       {damageMessage && <p>{damageMessage}</p>}
     </div>
   );
