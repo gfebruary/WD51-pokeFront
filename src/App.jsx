@@ -29,11 +29,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
-          <Route path="create-account" element={<CreateAccount />} />
+          <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
-          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl}/>} />
+          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl} />} />
         </Routes>
         <Footer appName={appName} />
       </BrowserRouter>

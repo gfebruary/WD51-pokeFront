@@ -1,27 +1,62 @@
-import React, { useState } from "react";
-import "tailwindcss/tailwind.css";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const SignUp = () => {
-  const backgroundImageURL = "https://wallpapercave.com/wp/wp12122370.jpg";
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+const lablelStyle = "block text-blue-500 text-sm font-bold mb-2"
+const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight bg-white focus:outline focus:outline-offset-2"
+
+const backgroundImageURL = "https://wallpapercave.com/wp/wp12122370.jpg";
+
+const SignUp = ({ srvUrl }) => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    passwordConfirmation: '',
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
+  const [pswConfirmError, setPswConfirmError] = useState('');
+  const [validationError, setValidationError] = useState(''); 
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value
+    }))
+  }
+
+  const handleConfirmBlur = () => {
+    if (formData.password !== formData.passwordConfirmation) {
+      setPswConfirmError('Passwords do not match')
+    } else {
+      setPswConfirmError('')
     }
-    alert("Registered Successfully");
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setValidationError('');
+    if (pswConfirmError !== '') return;
+    try {
+      const response = await axios.post(`${srvUrl}/fighters`, formData);
+      console.log('New fighter:', response.data);
+      navigate('/signin');
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setValidationError(error.response.data.error || '');
+        console.error('Validation error:', error.response);
+      } else {
+        console.error('Error msg', error.message);
+      }
+    }
   };
 
   return (
-    <div
-      className="h-screen flex flex-col items-center justify-center bg-cover bg-center"
+    <main
+      className={`grid place-content-center bg-cover bg-center`}
       style={{ backgroundImage: `url(${backgroundImageURL})` }}
     >
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
@@ -33,7 +68,7 @@ const SignUp = () => {
           {/*  Name */}
           <div className="mb-4">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className={lablelStyle}
               htmlFor="name"
             >
               Name
@@ -41,11 +76,12 @@ const SignUp = () => {
             <input
               id="name"
               type="text"
+              minLength={3}
               name="name"
-              value={data.name}
-              onChange={(e) => setData({...data, name:e.target.value})}
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Enter your name"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className={inputStyle}
               required
             />
           </div>
@@ -53,7 +89,7 @@ const SignUp = () => {
           {/* Email */}
           <div className="mb-4">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className={lablelStyle}
               htmlFor="email"
             >
               Email address
@@ -62,10 +98,10 @@ const SignUp = () => {
               id="email"
               type="email"
               name="email"
-              value={data.email}
-              onChange={(e) => setData({...data, email:e.target.value})}
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className={inputStyle}
               required
             />
           </div>
@@ -73,7 +109,7 @@ const SignUp = () => {
           {/* Password */}
           <div className="mb-4">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className={lablelStyle}
               htmlFor="password"
             >
               Password
@@ -81,19 +117,21 @@ const SignUp = () => {
             <input
               id="password"
               type="password"
+              minLength={6}
+              maxLength={32}
               name="password"
-              value={data.password}
-              onChange={(e) => setData({...data, password:e.target.value})}
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className={inputStyle}
               required
             />
           </div>
 
           {/* Confirm Password */}
-          <div className="mb-6">
+          <div className="mb-2">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className={lablelStyle}
               htmlFor="confirmPassword"
             >
               Confirm Password
@@ -101,177 +139,34 @@ const SignUp = () => {
             <input
               id="confirmPassword"
               type="password"
-              name="confirmPassword"
-              value={data.confirmPassword}
-              onChange={(e) => setData( {...data,confirmPassword:e.target.value})}
+              minLength={6}
+              maxLength={32}
+              name="passwordConfirmation"
+              value={formData.passwordConfirmation}
+              onChange={handleChange}
+              onBlur={handleConfirmBlur}
               placeholder="Confirm Password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
+              className={inputStyle}
               required
             />
           </div>
 
+          <p className="mb-2 text-red-500 text-xs italic">
+            {validationError ? validationError : pswConfirmError ? pswConfirmError : ' '}
+          </p>
+
           {/* Submit button */}
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline focus:outline-offset-2"
           >
             Register
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 };
 
 export default SignUp;
 
-
-
-
-
-// import React, { useState } from "react";
-// import "tailwindcss/tailwind.css";
-
-// const SignUp = () => {
-//   const backgroundImageURL = "https://wallpapercave.com/wp/wp12122370.jpg";
-
-//   const [firstName, setFirstName] = useState("");
-//   const [lastName, setLastName] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmPassword, setConfirmPassword] = useState("");
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (password !== confirmPassword) {
-//       alert("Passwords do not match");
-//       return;
-//     }
-//     alert("Registered Successfully");
-//   };
-
-//   return (
-//     <div
-//       className="h-screen flex flex-col items-center justify-center bg-cover bg-center"
-//       style={{ backgroundImage: `url(${backgroundImageURL})` }}
-//     >
-//       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
-//         <h1 className="text-3xl font-bold mb-4 text-blue-500">SIGN UP</h1>
-//         <form
-//           onSubmit={handleSubmit}
-//           className="bg-blue-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-sm"
-//         >
-//           {/* First Name */}
-//           <div className="mb-4">
-//             <label
-//               className="block text-blue-500 text-sm font-bold mb-2"
-//               htmlFor="firstName"
-//             >
-//               First Name
-//             </label>
-//             <input
-//               id="firstName"
-//               type="text"
-//               name="firstName"
-//               value={firstName}
-//               onChange={(e) => setFirstName(e.target.value)}
-//               placeholder="Enter first name"
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight focus:outline-none focus:shadow-outline bg-white"
-//               required
-//             />
-//           </div>
-
-//           {/* Last Name */}
-//           <div className="mb-4">
-//             <label
-//               className="block text-blue-500 text-sm font-bold mb-2"
-//               htmlFor="lastName"
-//             >
-//               Last Name
-//             </label>
-//             <input
-//               id="lastName"
-//               type="text"
-//               name="lastName"
-//               value={lastName}
-//               onChange={(e) => setLastName(e.target.value)}
-//               placeholder="Enter last name"
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight focus:outline-none focus:shadow-outline bg-white"
-//               required
-//             />
-//           </div>
-
-//           {/* Email */}
-//           <div className="mb-4">
-//             <label
-//               className="block text-blue-500 text-sm font-bold mb-2"
-//               htmlFor="email"
-//             >
-//               Email address
-//             </label>
-//             <input
-//               id="email"
-//               type="email"
-//               name="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//               placeholder="Enter email"
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight focus:outline-none focus:shadow-outline bg-white"
-//               required
-//             />
-//           </div>
-
-//           {/* Password */}
-//           <div className="mb-4">
-//             <label
-//               className="block text-blue-500 text-sm font-bold mb-2"
-//               htmlFor="password"
-//             >
-//               Password
-//             </label>
-//             <input
-//               id="password"
-//               type="password"
-//               name="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//               placeholder="Password"
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
-//               required
-//             />
-//           </div>
-
-//           {/* Confirm Password */}
-//           <div className="mb-6">
-//             <label
-//               className="block text-blue-500 text-sm font-bold mb-2"
-//               htmlFor="confirmPassword"
-//             >
-//               Confirm Password
-//             </label>
-//             <input
-//               id="confirmPassword"
-//               type="password"
-//               name="confirmPassword"
-//               value={confirmPassword}
-//               onChange={(e) => setConfirmPassword(e.target.value)}
-//               placeholder="Confirm Password"
-//               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white"
-//               required
-//             />
-//           </div>
-
-//           {/* Submit button */}
-//           <button
-//             type="submit"
-//             className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-//           >
-//             Register
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
