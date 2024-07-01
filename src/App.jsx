@@ -1,4 +1,3 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //------------other
@@ -13,7 +12,7 @@ import Footer from "./components/Footer";
 import BattleScreen from "./pages/BattleScreen";
 import CreateAccount from "./pages/CreateAccount";
 import Home from "./pages/Home";
-import Leaderboard from "./pages/Leaderboard";
+import LeaderBoard from "./pages/LeaderBoard";
 import PlayerInformation from "./pages/PlayerInformation";
 import Pokedex from "./pages/Pokedex";
 import SignIn from "./pages/SignIn";
@@ -21,7 +20,7 @@ import SignIn from "./pages/SignIn";
 const appName = "Pokemon game";
 
 function App() {
-  // const hostLocation = "https://wd51-pokeserver.onrender.com";
+  const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
 
   return (
     <>
@@ -34,7 +33,7 @@ function App() {
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl}/>} />
         </Routes>
         <Footer appName={appName} />
       </BrowserRouter>
