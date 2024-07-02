@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../components/Card.jsx";
 import PokeInfo from "../components/PokeInfo.jsx";
@@ -11,15 +11,6 @@ const PlayerInformation = () => {
   const [prevUrl, setPrevUrl] = useState();
   const [pokeDex, setPokeDex] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const pokemon = async () => {
-    setLoading(true);
-    const res = await axios.get(url);
-    setNextUrl(res.data.next);
-    setPrevUrl(res.data.previous);
-    await getPokemon(res.data.results);
-    setLoading(false);
-  };
 
   const getPokemon = async (results) => {
     const pokemonArray = [];
@@ -34,7 +25,16 @@ const PlayerInformation = () => {
     pokemonArray.sort((a, b) => (a.id > b.id ? 1 : -1));
     setPokeData(pokemonArray);
   };
+
   useEffect(() => {
+    const pokemon = async () => {
+      setLoading(true);
+      const res = await axios.get(url);
+      setNextUrl(res.data.next);
+      setPrevUrl(res.data.previous);
+      await getPokemon(res.data.results);
+      setLoading(false);
+    };
     pokemon();
   }, [url]);
 
@@ -48,7 +48,7 @@ const PlayerInformation = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
+    <main className="bg-gray-100 p-4">
       <div className="container mx-auto p-4">
       
           <div className="col-span-2">
@@ -99,7 +99,7 @@ const PlayerInformation = () => {
             </div>
           </div>
         )}
-      </div>
+      </main>
    
   );
 };

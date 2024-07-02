@@ -1,11 +1,10 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //------------other
 
 //------------components
 
-import Nav from "./components/Nav";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 //------------pages
@@ -13,28 +12,31 @@ import Footer from "./components/Footer";
 import BattleScreen from "./pages/BattleScreen";
 import CreateAccount from "./pages/CreateAccount";
 import Home from "./pages/Home";
-import Leaderboard from "./pages/Leaderboard";
+import LeaderBoard from "./pages/LeaderBoard";
 import PlayerInformation from "./pages/PlayerInformation";
 import Pokedex from "./pages/Pokedex";
 import SignIn from "./pages/SignIn";
 
-function App() {
-  const hostLocation = "https://wd51-pokeserver.onrender.com";
+const appName = "Pokemon game";
+
+const App = () => {
+  const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
+  // const srvUrl = "http://localhost:3001/api/v1";
 
   return (
     <>
       <BrowserRouter>
-        <Nav />
+        <Header logoText={appName} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
-          <Route path="create-account" element={<CreateAccount />} />
+          <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
-          <Route path="leaderboard" element={<Leaderboard />} />
+          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl} />} />
         </Routes>
-        <Footer />
+        <Footer appName={appName} />
       </BrowserRouter>
     </>
   );
