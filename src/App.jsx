@@ -22,6 +22,11 @@ const appName = "Pokemon game";
 const App = () => {
   const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
   // const srvUrl = "http://localhost:3001/api/v1";
+const appName = "Pokemon game";
+
+const App = () => {
+  const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
+  // const srvUrl = "http://localhost:3001/api/v1";
 
   return (
     <>
@@ -34,7 +39,7 @@ const App = () => {
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
-          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl} />} />
+          <Route path="leaderboard" element={<Leaderboard srvUrl={srvUrl} />} />
         </Routes>
         <Footer appName={appName} />
       </BrowserRouter>
