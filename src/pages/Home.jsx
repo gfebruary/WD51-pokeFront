@@ -6,13 +6,12 @@ const Home = () => {
   const imageURL =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif";
 
-  const backgroundImageURL = "https://wallpapercave.com/wp/DHxNgvZ.jpg"; 
+  const backgroundImageURL = "https://wallpapercave.com/wp/DHxNgvZ.jpg";
 
   return (
     <div
       className="h-screen flex flex-col items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${backgroundImageURL})` }}
-    >
+      style={{ backgroundImage: `url(${backgroundImageURL})` }}>
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
         <img
           src={imageURL}
