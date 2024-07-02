@@ -30,7 +30,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="signin" element={<SignIn />} />
-          <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
+          <Route
+            path="create-account"
+            element={<CreateAccount srvUrl={srvUrl} />}
+          />
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
@@ -40,6 +43,6 @@ const App = () => {
       </BrowserRouter>
     </>
   );
-}
+};
 
 export default App;

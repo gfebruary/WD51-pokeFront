@@ -9,8 +9,7 @@ const Home = () => {
   return (
     <main
       className="flex flex-col items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: `url(${backgroundImageURL})` }}
-    >
+      style={{ backgroundImage: `url(${backgroundImageURL})` }}>
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
         <img
           src={imageURL}
@@ -25,14 +24,12 @@ const Home = () => {
         <div className="flex justify-center space-x-4">
           <Link
             to="/create-account"
-            className="bg-green-500 hover:bg-green-400 text-black font-bold py-2 px-4 rounded-lg shadow-md transition-color300"
-          >           
+            className="bg-green-500 hover:bg-green-400 text-black font-bold py-2 px-4 rounded-lg shadow-md transition-color300">
             Sign Up
           </Link>
           <Link
             to="/signin"
-            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg shadow-md transition duration-300"
-          >
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
             Login
           </Link>
         </div>
