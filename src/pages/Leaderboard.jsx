@@ -37,4 +37,4 @@ const Leaderboard = ({ srvUrl }) => {
     </main>
   );
 };
-export default LeaderBoard;
+export default Leaderboard;
