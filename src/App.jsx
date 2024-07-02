@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 import BattleScreen from "./pages/BattleScreen";
 import CreateAccount from "./pages/CreateAccount";
 import Home from "./pages/Home";
-import LeaderBoard from "./pages/LeaderBoard";
+import Leaderboard from "./pages/Leaderboard";
 import PlayerInformation from "./pages/PlayerInformation";
 import Pokedex from "./pages/Pokedex";
 import SignIn from "./pages/SignIn";
@@ -34,7 +34,7 @@ const App = () => {
           <Route path="player-information" element={<PlayerInformation />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
-          <Route path="leaderboard" element={<LeaderBoard srvUrl={srvUrl} />} />
+          <Route path="leaderboard" element={<Leaderboard srvUrl={srvUrl} />} />
         </Routes>
         <Footer appName={appName} />
       </BrowserRouter>
