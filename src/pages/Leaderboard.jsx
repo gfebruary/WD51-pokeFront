@@ -4,7 +4,7 @@ import useImportData from "../hooks/useImportData";
 
 const imageURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/149.gif";
 
-const LeaderBoard = ({ srvUrl }) => {
+const Leaderboard = ({ srvUrl }) => {
   
   const leadersUrl = `${srvUrl}/fighters/top`;
   const { data, error, loading } = useImportData(leadersUrl);
@@ -36,4 +36,4 @@ const LeaderBoard = ({ srvUrl }) => {
 
   );
 };
-export default LeaderBoard;
+export default Leaderboard;
