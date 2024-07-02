@@ -19,8 +19,9 @@ import SignIn from "./pages/SignIn";
 
 const appName = "Pokemon game";
 
-function App() {
-  const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
+const App = () => {
+  // const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
+  const srvUrl = "http://localhost:3001/api/v1";
 
   return (
     <>
