@@ -1,0 +1,15 @@
+/* animations.css */
+@keyframes rotateIn {
+  from {
+    transform: rotateY(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+.rotate-card {
+  animation: rotateIn 0.5s ease-in-out;
+}
