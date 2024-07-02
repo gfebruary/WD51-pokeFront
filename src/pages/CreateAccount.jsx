@@ -97,6 +97,7 @@ const SignUp = ({ srvUrl }) => {
             <input
               id="email"
               type="email"
+              autoComplete="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -117,6 +118,7 @@ const SignUp = ({ srvUrl }) => {
             <input
               id="password"
               type="password"
+              autoComplete="new-password"
               minLength={6}
               maxLength={32}
               name="password"
@@ -139,6 +141,7 @@ const SignUp = ({ srvUrl }) => {
             <input
               id="confirmPassword"
               type="password"
+              autoComplete="new-password"
               minLength={6}
               maxLength={32}
               name="passwordConfirmation"
