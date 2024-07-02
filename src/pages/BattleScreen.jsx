@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useImportData from "../hooks/useImportData";
 import ChooseRandomPokemon from "../components/ChooseRandomPokemon";
 import DamageCalculation from "../components/DamageCalculation";
+//import BattleBackground from "../assets/BattleBackground.jpg"; // maybe keep background...
+import BattleBackground from "../assets/BattleBackground2.jpg"; // maybe keep background...
 
 const BattleScreen = () => {
   const pokemonURL = "https://wd51-pokeserver.onrender.com/api/v1/pokes/";
 
   const { data, error, loading } = useImportData(pokemonURL);
+
+  //animated pokemon
   const imageURL =
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown";
 
@@ -18,6 +22,29 @@ const BattleScreen = () => {
   const [cpuChoice, setCpuChoice] = useState("");
   const [result, setResult] = useState("");
   const [damageMessage, setDamageMessage] = useState("");
+  const [score, setScore] = useState(0);
+  const [currentCombo, setCurrentCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
+  const [roundBonus, setRoundBonus] = useState(20000);
+  const [roundCount, setRoundCount] = useState(1);
+  const [gameOver, setGameOver] = useState(false);
+  const [gameOverMessage, setGameOverMessage] = useState("");
+
+  useEffect(() => {
+    if (playerPokemon && playerPokemon.currentHP <= 0) {
+      setGameOver(true);
+      setGameOverMessage("YOU LOSE");
+      setScore(
+        (prevScore) => prevScore + bestCombo * 1000 + Math.max(0, roundBonus)
+      );
+    } else if (cpuPokemon && cpuPokemon.currentHP <= 0) {
+      setGameOver(true);
+      setGameOverMessage("YOU WIN");
+      setScore(
+        (prevScore) => prevScore + bestCombo * 1000 + Math.max(0, roundBonus)
+      );
+    }
+  }, [playerPokemon, cpuPokemon, bestCombo, roundBonus]);
 
   const handlePlayerPokemonSelected = (pokemon) => {
     setPlayerPokemon({ ...pokemon, currentHP: pokemon.base.HP });
@@ -28,41 +55,48 @@ const BattleScreen = () => {
   };
 
   const handleSubmit = () => {
-    // ------------------------Generate CPU choice ------------------------
+    if (gameOver) return;
+
     const randomCpuChoice = choices[Math.floor(Math.random() * choices.length)];
     setCpuChoice(randomCpuChoice);
 
-    // ------------------------Determine result using randomCpuChoice directly ------------------------
     if (playerChoice === randomCpuChoice) {
       setDamageMessage("");
       setResult("It's a tie!");
+      setScore((prevScore) => prevScore + 50);
+      // setCurrentCombo(0); reset combo or not if tie?
     } else if (
       (playerChoice === "Rock" && randomCpuChoice === "Scissors") ||
       (playerChoice === "Paper" && randomCpuChoice === "Rock") ||
       (playerChoice === "Scissors" && randomCpuChoice === "Paper")
     ) {
-      // ------------------------Player wins------------------------
       setResult(`Player's ${playerChoice} beats CPU's ${randomCpuChoice}!`);
-
-      // ------------------------Calculate damage from player------------------------
       const playerDamage = DamageCalculation(playerPokemon, cpuPokemon);
       setCpuPokemon((prev) => ({
         ...prev,
         currentHP: prev.currentHP - playerDamage,
       }));
       setDamageMessage(`Player does ${playerDamage} damage!`);
-    } else {
-      // CPU wins
-      setResult(`CPU's ${randomCpuChoice} beats Player's ${playerChoice}!`);
 
-      // ------------------------Calculate damage from CPU ------------------------
+      setScore((prevScore) => prevScore + 100);
+      setCurrentCombo((prevCombo) => prevCombo + 1);
+      setBestCombo((prevBestCombo) =>
+        Math.max(prevBestCombo, currentCombo + 1)
+      );
+    } else {
+      setResult(`CPU's ${randomCpuChoice} beats Player's ${playerChoice}!`);
       const cpuDamage = DamageCalculation(cpuPokemon, playerPokemon);
       setPlayerPokemon((prev) => ({
         ...prev,
         currentHP: prev.currentHP - cpuDamage,
       }));
       setDamageMessage(`CPU does ${cpuDamage} damage!`);
+
+      setCurrentCombo(0);
     }
+
+    setRoundBonus((prevBonus) => Math.max(0, prevBonus - 500));
+    setRoundCount((prevCount) => prevCount + 1);
   };
 
   if (loading) {
@@ -88,22 +122,42 @@ const BattleScreen = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-8">BATTLE SCREEN</h1>
+    <div
+      className="h-screen flex flex-col items-center justify-center text-white"
+      style={{
+        backgroundImage: `url(${BattleBackground})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        color: "white",
+        textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+      }}>
+      <h1 className="text-5xl font-bold mb-4">BATTLE SCREEN</h1>
+      <div className="bg-blue-200 bg-opacity-40 rounded-lg p-4 mb-8 text-center">
+        <p className="text-2xl mb-2">
+          Round Bonus: {roundCount} = {Math.max(0, roundBonus)} pts
+        </p>
+
+        <p className="text-2xl mb-2">Current Combo: {currentCombo}</p>
+        <p className="text-2xl mb-2">
+          Best Combo: {bestCombo} = {bestCombo * 1000} pts
+        </p>
+        <p className="  text-3xl mb-2">Score: {score} pts</p>
+        {gameOver && <p className="text-3xl font-bold">{gameOverMessage}</p>}
+      </div>
       <ChooseRandomPokemon
         data={data}
         onPlayerPokemonSelected={handlePlayerPokemonSelected}
         onCpuPokemonSelected={handleCpuPokemonSelected}
       />
       <div className="flex justify-around w-full mb-8">
-        {/* ------------------------Player ------------------------*/}
         {playerPokemon && (
           <div className="flex flex-col items-center">
             <img
               src={`${imageURL}/${playerPokemon.id}.gif`}
               alt={playerPokemon.name.english}
-              className="mb-2"
-              style={{ transform: "scaleX(-1)", height: "125px" }}
+              className="mb-2 h-36"
+              // style={{ transform: "scaleX(-1)", height: "125px" }}
+              style={{ transform: "scaleX(-1)" }}
             />
             <h2 className="text-2xl font-bold mb-2">
               {playerPokemon.name.english} (Level: 50)
@@ -126,21 +180,25 @@ const BattleScreen = () => {
               ))}
             </div>
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-              onClick={handleSubmit}>
+              className={`px-4 py-2 rounded ${
+                gameOver
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-500 text-white"
+              }`}
+              onClick={handleSubmit}
+              disabled={gameOver}>
               Submit
             </button>
           </div>
         )}
 
-        {/* ------------------------CPU ------------------------*/}
         {cpuPokemon && (
           <div className="flex flex-col items-center">
             <img
               src={`${imageURL}/${cpuPokemon.id}.gif`}
               alt={cpuPokemon.name.english}
-              className="mb-2"
-              style={{ height: "125px" }}
+              className="mb-2 h-36"
+              // style={{ height: "125px" }}
             />
             <h2 className="text-2xl font-bold mb-2">
               {cpuPokemon.name.english} (Level: 50)
@@ -154,11 +212,8 @@ const BattleScreen = () => {
           </div>
         )}
       </div>
-
-      {/*------------------------ Result------------------------ */}
-      {result && <h2>{result}</h2>}
-      {/* ------------------------Damage Message ------------------------ */}
-      {damageMessage && <p>{damageMessage}</p>}
+      {result && <h2 className="text-2xl">{result}</h2>}
+      {damageMessage && <p className="text-xl">{damageMessage}</p>}
     </div>
   );
 };
