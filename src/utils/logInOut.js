@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { redirect } from 'react-router-dom';
 
 export const login = async (formData, srvUrl, setUser, setLoginError) => {
+
     try {
         const res = await axios.post(`${srvUrl}/fighters/login`, {
             email: formData.email,

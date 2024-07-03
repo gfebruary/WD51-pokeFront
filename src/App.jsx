@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 //------------components
@@ -30,6 +31,9 @@ const App = () => {
       const decodedToken = jwtDecode(token);
       if (decodedToken.exp * 1000 > Date.now()) {
         setUser(decodedToken)
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        console.log('ADef', axios.defaults);
       } else {
         localStorage.removeItem('token')
       }
@@ -44,7 +48,7 @@ const App = () => {
           <Route path="/" element={<Home user={user} />} />
           <Route path="signin" element={<SignIn srvUrl={srvUrl} setUser={setUser} />} />
           <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
-          <Route path="player-information" element={<PlayerInformation />} />
+          <Route path="player-information" element={<PlayerInformation user={user} srvUrl={srvUrl} />} />
           <Route path="pokedex" element={<Pokedex />} />
           <Route path="battle-screen" element={<BattleScreen />} />
           <Route path="leaderboard" element={<Leaderboard srvUrl={srvUrl} />} />
