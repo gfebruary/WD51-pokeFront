@@ -27,7 +27,7 @@ const PokeInfo = ({ data }) => {
             alt={`${data.name} image`}
             className="w-24 h-24 mx-auto mt-2"
           />
-          {/* <div className="mt-4">
+          <div className="mt-4">
             <h2 className="text-lg font-semibold text-gray-700">Abilities:</h2>
             <div className="flex flex-wrap mt-2">
               {data.abilities.map((poke) => (
@@ -39,7 +39,7 @@ const PokeInfo = ({ data }) => {
                 </span>
               ))}
             </div>
-          </div> */}
+          </div>
           <div className="mt-4">
             <h2 className="text-lg font-semibold text-gray-700">Base Stats:</h2>
             <div className="mt-2">

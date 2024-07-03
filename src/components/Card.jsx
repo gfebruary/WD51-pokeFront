@@ -13,7 +13,7 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
               key={item.id}
               onClick={() => infoPokemon(item)}
             >
-              <h2 className="text-xl font-bold text-center capitalize">
+              <h2 className="text-xl text-gray-700 font-bold text-center capitalize">
                 {item.name}
               </h2>
               <img
