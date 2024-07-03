@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 const mainNav = [
-  { name: "Player Info", path: "/player-information" },
   { name: "Pokedex", path: "/pokedex" },
   { name: "Battle Screen", path: "/battle-screen" },
   { name: "Leaderboard", path: "/leaderboard" }
@@ -36,12 +35,12 @@ const Header = ({ logoText, user }) => {
     setNavItems(filteredNavItems);
   }, [user]);
 
-  const navLinkStyles = ({ isActive }) => (`font-semibold py-4 text-white hover:text-blue-200 transition-colors ${isActive ? 'text-yellow-300' : ''}`)
+  const navLinkStyles = ({ isActive }) => (`font-semibold py-2 text-white hover:text-blue-200 transition-colors ${isActive ? 'text-yellow-300' : ''}`)
 
   return (
     <header className="bg-gray-800">
-      <div className="container mx-auto flex flex-wrap justify-between items-baseline gap-4">
-        <NavLink className="text-xl font-bold py-4 text-white hover:text-blue-200 transition-colors" to="/">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] justify-center md:justify-between items-baseline gap-2 py-2">
+        <NavLink className="text-xl leading-4 font-bold text-center py-2 text-white hover:text-blue-200 transition-colors" to="/">
           {logoText}
         </NavLink>
 
@@ -57,10 +56,10 @@ const Header = ({ logoText, user }) => {
           </ul>
         </nav>
 
-        <ul className="flex justify-center flex-wrap gap-2">
+        <ul className="flex justify-center flex-wrap gap-4">
           {navItems.map((navItem) => (
             <li key={navItem.path}>
-              <Link className="py-4 text-white hover:text-blue-200 transition-colors" to={navItem.path}>
+              <Link className="py-2 text-white hover:text-blue-200 transition-colors" to={navItem.path}>
                 {navItem.name}
               </Link>
             </li>

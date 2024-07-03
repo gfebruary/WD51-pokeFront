@@ -29,8 +29,8 @@ const Leaderboard = ({ srvUrl }) => {
 
       <h1 className="text-4xl font-bold">LEADERBOARD</h1>
 
-      <ul className="grid gap-2">
-        {data.map((leader) => (
+      <ul className="grid gap-1">
+        {data.sort((a, b) => b.fights.score - a.fights.score).map((leader) => (
           <LeaderCard key={leader.id} leader={leader} />
         ))}
       </ul>
