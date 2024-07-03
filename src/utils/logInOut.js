@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { redirect } from 'react-router-dom';
 
 export const login = async (formData, srvUrl, setUser, setLoginError) => {
     try {
@@ -29,4 +30,6 @@ export const logout = (setUser) => {
     localStorage.removeItem('token');
     setUser(null);
     delete axios.defaults.headers.common['Authorization'];
+    console.log('Logged out');
+    redirect('/')
 };
