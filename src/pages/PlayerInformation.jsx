@@ -4,14 +4,22 @@ import dragon6 from '../assets/6.gif'
 
 const PlayerInformation = ({ user, srvUrl }) => {
   const [userCard, setUserCard] = useState(null);
+  const [userFights, setUserFights] = useState(null);
+  const [editMode, setEditMode] = useState(false);
 
 
   useEffect(() => {
     const fetchFighter = async () => {
       if (!user) return;
       try {
-          const response = await axios.get(`${srvUrl}/fighters/${user.id}`);
-          setUserCard(response.data);
+        const response = await axios.get(`${srvUrl}/fighters/${user.id}`);
+        setUserCard(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+      try {
+        const response = await axios.get(`${srvUrl}/battles/${user.id}`);
+        setUserFights(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -19,7 +27,6 @@ const PlayerInformation = ({ user, srvUrl }) => {
     fetchFighter();
   }, [user, srvUrl])
 
-  console.log("userCard", userCard)
   const draws = userCard?.fights?.total - userCard?.fights?.wins - userCard?.fights?.losses || 0;
 
   return (
@@ -35,22 +42,48 @@ const PlayerInformation = ({ user, srvUrl }) => {
           <p>E-mail: <span className="font-semibold">{userCard?.email}</span></p>
           <p>Is admin: <span className="font-semibold">{userCard?.isAdmin ? 'True' : 'False'}</span></p>
           <p>User id: <span className="font-semibold">{userCard?.id}</span></p>
-          <div className='grid grid-cols-4 gap-4 mt-2'>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-            <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Cancel</button>
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+          <div className='grid grid-cols-2 gap-4 mt-2'>
+            {/* TODO: add editing functionality */}
+            {editMode
+              ? <>
+                <button
+                  onClick={() => setEditMode(false)}
+                  className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                <button
+                  onClick={() => setEditMode(false)}
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
+              </>
+              : <>
+                <button
+                  onClick={() => setEditMode(true)}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                <button
+                  onClick={() => setEditMode(true)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+              </>
+            }
           </div>
           <h3 className="my-2 text-xl font-semibold">Results:</h3>
-          <p>Score: <span className="font-semibold">{userCard?.fights?.score || 0 }</span></p>
-          <p>Wins: <span className="font-semibold">{userCard?.fights?.wins || 0 }</span></p>
-          <p>Losses: <span className="font-semibold">{userCard?.fights?.losses || 0 }</span></p>
+          <p>Score: <span className="font-semibold">{userCard?.fights?.score || 0}</span></p>
+          <p>Wins: <span className="font-semibold">{userCard?.fights?.wins || 0}</span></p>
+          <p>Losses: <span className="font-semibold">{userCard?.fights?.losses || 0}</span></p>
           <p>Losses: <span className="font-semibold">{draws}</span></p>
-          <p>Total: <span className="font-semibold">{userCard?.fights?.total || 0 }</span></p>
+          <p>Total: <span className="font-semibold">{userCard?.fights?.total || 0}</span></p>
         </div>
         <div className="py-2 px-4 bg-gray-700/70 rounded-md grid grid-rows-[auto_1fr]">
           <h2 className='text-2xl font-semibold mb-2'>Fighting history</h2>
-          <div className='grid place-content-center bg-yellow-700/10'>Stay tunned!</div>
+          {
+            userFights
+              ? <ul className="space-y-2">
+                {userFights.map((fight, index) => (
+                  <li key={index} className='bg-yellow-700/10'>
+                    Opponent: <span className="font-semibold">{fight.computerPokemonId}</span> |
+                    Result: <span className="font-semibold">{fight.result}</span>
+                  </li>
+                ))}
+              </ul>
+              : <div className='grid place-content-center bg-yellow-700/10'>No fights yet!</div>
+          }
         </div>
       </div>
     </main>
