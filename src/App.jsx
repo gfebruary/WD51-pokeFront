@@ -17,7 +17,7 @@ import Pokedex from "./pages/Pokedex";
 import SignIn from "./pages/SignIn";
 import Logout from "./components/Logout";
 
-const appName = "Pokemon game";
+const appName = "Pokémon Play";
 const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
 // const srvUrl = "http://localhost:3001/api/v1";
 
@@ -33,7 +33,6 @@ const App = () => {
         setUser(decodedToken)
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        console.log('ADef', axios.defaults);
       } else {
         localStorage.removeItem('token')
       }
@@ -45,7 +44,7 @@ const App = () => {
       <BrowserRouter>
         <Header logoText={appName} user={user} />
         <Routes>
-          <Route path="/" element={<Home user={user} />} />
+          <Route path="/" element={<Home user={user} appName={appName} />} />
           <Route path="signin" element={<SignIn srvUrl={srvUrl} setUser={setUser} />} />
           <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
           <Route path="player-information" element={<PlayerInformation user={user} srvUrl={srvUrl} />} />
