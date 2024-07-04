@@ -14,12 +14,12 @@ const PokeInfo = ({ data }) => {
   return (
     <>
       {!data ? (
-        <h1 className="text-center text-2xl">
+        <h1 className="text-center text-blue-700 text-2xl">
           Select a Pokémon to see details
         </h1>
       ) : (
         <div className="bg-white p-4 rounded-lg">
-          <h1 className="text-2xl font-bold capitalize text-center text-gray-800">
+          <h1 className="text-2xl font-bold capitalize text-center text-orange-500">
             {data.name}
           </h1>
           <img
@@ -59,6 +59,7 @@ const PokeInfo = ({ data }) => {
                         statColors[poke.stat.name]
                       } h-3 rounded-full`}
                       style={{ width: `${poke.base_stat}%` }}
+                      // style={{ width: `${Math.min(poke.base_stat, 150)}%` }}
                     ></div>
                   </div>
                 </div>
