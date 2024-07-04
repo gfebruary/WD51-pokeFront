@@ -31,6 +31,5 @@ export const logout = (setUser) => {
     localStorage.removeItem('token');
     setUser(null);
     delete axios.defaults.headers.common['Authorization'];
-    console.log('Logged out');
     redirect('/')
 };
