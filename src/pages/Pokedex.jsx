@@ -5,40 +5,29 @@ import PokeInfo from "../components/PokeInfo.jsx";
 import "../animations.css";
 import "../style.css";
 
-const PlayerInformation = () => {
+const Pokedex = () => {
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
-  const [nextUrl, setNextUrl] = useState();
-  const [prevUrl, setPrevUrl] = useState();
-  const [pokeDex, setPokeDex] = useState();
+  const [pokeDex, setPokeDex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const getPokemon = async (results) => {
-    const pokemonArray = [];
-    for (const item of results) {
-      try {
-        const result = await axios.get(item.url);
-        pokemonArray.push(result.data);
-      } catch (error) {
-        console.error(`Error fetching Pokémon ${item.name}:`, error);
-      }
-    }
-    pokemonArray.sort((a, b) => (a.id > b.id ? 1 : -1));
-    setPokeData(pokemonArray);
-  };
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const pokemon = async () => {
+    const fetchPokemonData = async () => {
       setLoading(true);
-      const res = await axios.get(url);
-      setNextUrl(res.data.next);
-      setPrevUrl(res.data.previous);
-      await getPokemon(res.data.results);
-      setLoading(false);
+      try {
+        const res = await axios.get(
+          "https://wd51-pokeserver.onrender.com/api/v1/pokes/"
+        );
+        setPokeData(res.data.pokeBase);
+      } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-    pokemon();
-  }, [url]);
+    fetchPokemonData();
+  }, []);
 
   const handlePokemonClick = (poke) => {
     setPokeDex(poke);
@@ -49,41 +38,30 @@ const PlayerInformation = () => {
     setIsModalOpen(false);
   };
 
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value.toLowerCase());
+  };
+
+  const filteredPokemons = pokeData.filter((pokemon) =>
+    pokemon.name.english.toLowerCase().includes(searchTerm)
+  );
+
   return (
-    <main className="bg-gray-100 p-4">
+    <main className="bg-blue-100 p-4">
       <div className="container mx-auto p-4">
         <div className="col-span-2">
+          <input
+            type="text"
+            placeholder="Search Pokémon..."
+            className="w-1/4 p-2 mb-4 border bg-white text-orange-500 font-bold border-blue-300 rounded"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
           <Card
-            pokemon={pokeData}
+            pokemon={filteredPokemons}
             loading={loading}
             infoPokemon={handlePokemonClick}
           />
-
-          <div className="flex justify-between mt-4">
-            {prevUrl && (
-              <button
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                onClick={() => {
-                  setPokeData([]);
-                  setUrl(prevUrl);
-                }}
-              >
-                Previous
-              </button>
-            )}
-
-            {nextUrl && (
-              <button
-                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                onClick={() => {
-                  setPokeData([]);
-                  setUrl(nextUrl);
-                }}
-              >
-                Next
-              </button>
-            )}
-          </div>
         </div>
       </div>
 
@@ -104,48 +82,4 @@ const PlayerInformation = () => {
   );
 };
 
-export default PlayerInformation;
-
-// import LoadingNote from "../components/LoadingNote";
-// import PokedexCard from "../components/PokedexCard";
-
-// import useImportData from "../hooks/useImportData";
-
-// const Pokedex = () => {
-//   const pokemonURL = "https://wd51-pokeserver.onrender.com/api/v1/pokes/";
-
-//   //--------------------SHOW POKEMON ON BY DEFAULT
-//   const showPokemon = false;
-
-//   const { data, error, loading } = useImportData(pokemonURL);
-
-//   if (loading) {
-//     return LoadingNote({ msg: "Loading... This may take up to 2 minutes on first load" });
-//   }
-
-//   if (error) {
-//     return LoadingNote({ msg: error.message });
-//   }
-
-//   if (!data || !Array.isArray(data.pokeBase)) {
-//     return LoadingNote({ msg: "Unexpected data format" });
-//   }
-
-//   return (
-//     <main className="h-full flex flex-col items-center justify-start pt-20 pb-20">
-//       <img
-//         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/245.gif"
-//         alt="Pokemon"
-//         className="mb-4"
-//       />
-//       <h1 className="text-4xl font-bold mb-2">POKEDEX</h1>
-//       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//         {data.pokeBase.map((pokemon) => (
-//           <PokedexCard key={pokemon.id} pokemon={pokemon} showPokemon={showPokemon} />
-//         ))}
-//       </ul>
-//     </main>
-//   );
-// };
-
-// export default Pokedex;
+export default Pokedex;
