@@ -22,22 +22,21 @@ const srvUrl = "https://wd51-pokeserver.onrender.com/api/v1";
 // const srvUrl = "http://localhost:3001/api/v1";
 
 const App = () => {
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedToken = jwtDecode(token);
       if (decodedToken.exp * 1000 > Date.now()) {
-        setUser(decodedToken)
+        setUser(decodedToken);
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       } else {
-        localStorage.removeItem('token')
+        localStorage.removeItem("token");
       }
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -45,11 +44,23 @@ const App = () => {
         <Header logoText={appName} user={user} />
         <Routes>
           <Route path="/" element={<Home user={user} appName={appName} />} />
-          <Route path="signin" element={<SignIn srvUrl={srvUrl} setUser={setUser} />} />
-          <Route path="create-account" element={<CreateAccount srvUrl={srvUrl} />} />
-          <Route path="player-information" element={<PlayerInformation user={user} srvUrl={srvUrl} />} />
+          <Route
+            path="signin"
+            element={<SignIn srvUrl={srvUrl} setUser={setUser} />}
+          />
+          <Route
+            path="create-account"
+            element={<CreateAccount srvUrl={srvUrl} />}
+          />
+          <Route
+            path="player-information"
+            element={<PlayerInformation user={user} srvUrl={srvUrl} />}
+          />
           <Route path="pokedex" element={<Pokedex />} />
-          <Route path="battle-screen" element={<BattleScreen />} />
+          <Route
+            path="battle-screen"
+            element={<BattleScreen user={user} srvUrl={srvUrl} />}
+          />
           <Route path="leaderboard" element={<Leaderboard srvUrl={srvUrl} />} />
           <Route path="logout" element={<Logout setUser={setUser} />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
