@@ -1,3 +1,4 @@
+//lastBattle
 const LastBattleCard = ({ battle }) => (
   <li className="flex flex-wrap justify-between items-baseline gap-2 bg-gray-700 px-4">
     <div>

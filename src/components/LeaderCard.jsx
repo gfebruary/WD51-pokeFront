@@ -1,3 +1,5 @@
+//TopFighters
+
 const LeaderCard = ({ leader }) => {
   const draws = leader.fights.total - leader.fights.wins - leader.fights.losses || 0;
   return (
