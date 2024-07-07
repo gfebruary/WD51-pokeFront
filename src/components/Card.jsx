@@ -9,9 +9,9 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
     Water: "bg-blue-500",
     Ground: "bg-yellow-500",
     Ghost: "bg-purple-700",
-    Dragon: "bg-red-700",
+    Dragon: "bg-red-300",
     Flying: "bg-blue-300",
-    Fire: "bg-red-500",
+    Fire: "bg-red-800",
     Fighting: "bg-orange-700",
     Rock: "bg-gray-700",
     Electric: "bg-yellow-300",
@@ -44,6 +44,9 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
                   alt={item.name.english}
                   className="w-24 h-24 mx-auto"
                 />
+                <p className="text-sm text-white text-center font-bold text-2xl mb-2">
+                  {item.type.join(", ")}
+                </p>
               </div>
             );
           })}
@@ -54,3 +57,4 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
 };
 
 export default Card;
+

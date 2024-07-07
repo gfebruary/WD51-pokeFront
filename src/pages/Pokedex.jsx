@@ -11,6 +11,7 @@ const Pokedex = () => {
   const [pokeDex, setPokeDex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedType, setSelectedType] = useState(""); // New state for selected type
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -42,9 +43,36 @@ const Pokedex = () => {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
-  const filteredPokemons = pokeData.filter((pokemon) =>
-    pokemon.name.english.toLowerCase().includes(searchTerm)
-  );
+  const handleTypeChange = (type) => {
+    setSelectedType(type === "" ? "" : type);
+  };
+
+  const filteredPokemons = pokeData
+    .filter((pokemon) =>
+      pokemon.name.english.toLowerCase().includes(searchTerm)
+    )
+    .filter((pokemon) =>
+      selectedType ? pokemon.type.includes(selectedType) : true
+    );
+
+  const buttonTypes = [
+    "Bug",
+    "Grass",
+    "Poison",
+    "Normal",
+    "Water",
+    "Ground",
+    "Ghost",
+    "Dragon",
+    "Flying",
+    "Fire",
+    "Fighting",
+    "Rock",
+    "Electric",
+    "Fairy",
+    "Psychic",
+    "Ice",
+  ];
 
   return (
     <main className="bg-blue-100 p-4">
@@ -53,10 +81,35 @@ const Pokedex = () => {
           <input
             type="text"
             placeholder="Search Pokémon..."
-            className="w-1/4 p-2 mb-4 border bg-white text-orange-500 font-bold border-blue-300 rounded"
+            className="w-2/6 p-2 mb-4 border bg-white text-orange-500 font-bold border-blue-300 rounded"
             value={searchTerm}
             onChange={handleSearchChange}
           />
+          <button
+            className={`px-20 py-2 ml-10 text-xl rounded ${
+              selectedType === ""
+                ? "bg-orange-500 text-green-500 font-bold"
+                : "bg-orange-300 text-green-500 font-bold hover:bg-orange-600 transition-colors duration-200"
+            }`}
+            onClick={() => handleTypeChange("")}
+          >
+            All Pokemons
+          </button>
+          <div className="flex flex-wrap gap-2 mb-4 ">
+            {buttonTypes.map((type) => (
+              <button
+                key={type}
+                className={`px-6 py-2 rounded ${
+                  selectedType === type
+                    ? "bg-green-500 text-orange-500 font-bold"
+                    : "bg-green-300 text-orange-500 font-bold hover:bg-green-600 transition-colors duration-200"
+                }`}
+                onClick={() => handleTypeChange(type)}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
           <Card
             pokemon={filteredPokemons}
             loading={loading}
@@ -83,3 +136,5 @@ const Pokedex = () => {
 };
 
 export default Pokedex;
+
+
