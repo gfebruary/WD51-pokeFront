@@ -44,6 +44,9 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
                   alt={item.name.english}
                   className="w-24 h-24 mx-auto"
                 />
+                <p className="text-sm text-white text-center font-bold text-2xl mb-2">
+                  {item.type.join(", ")}
+                </p>
               </div>
             );
           })}
@@ -54,3 +57,4 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
 };
 
 export default Card;
+

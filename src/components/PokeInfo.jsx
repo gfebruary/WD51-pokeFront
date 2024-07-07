@@ -45,7 +45,6 @@ const PokeInfo = ({ data }) => {
                       className={`${
                         statColors[stat.toLowerCase()] || "bg-gray-400"
                       } h-3 rounded-full`}
-                      // style={{ width: `${value}%` }}
                       style={{ width: `${Math.min(value, 100)}%` }}
                     ></div>
                   </div>
@@ -60,3 +59,5 @@ const PokeInfo = ({ data }) => {
 };
 
 export default PokeInfo;
+
+
