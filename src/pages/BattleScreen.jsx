@@ -7,6 +7,8 @@ import PokemonSection from "../components/PokemonSection";
 import GameControls from "../components/GameControls";
 import UpdateFightInfo from "../components/UpdateFightInfo";
 import Scoreboard from "../components/Scoreboard";
+//import ParticleEffect from "../components/ParticleEffect";
+import NotLogged from "../components/NotLogged";
 
 const BattleScreen = ({ user }) => {
   const pokemonURL = "https://wd51-pokeserver.onrender.com/api/v1/pokes/";
@@ -32,6 +34,8 @@ const BattleScreen = ({ user }) => {
   const [gameOver, setGameOver] = useState(false);
   const [gameOverMessage, setGameOverMessage] = useState("");
   const [battleOutcome, setBattleOutcome] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  // const [showParticles, setShowParticles] = useState(false);
 
   useEffect(() => {
     if (playerPokemon && playerPokemon.currentHP <= 0) {
@@ -46,8 +50,19 @@ const BattleScreen = ({ user }) => {
         (prevScore) => prevScore + bestCombo * 1000 + Math.max(0, roundBonus)
       );
       setBattleOutcome("win");
+
+      // setShowParticles(true);
+      // setTimeout(() => {
+      //   setShowParticles(false);
+      // }, 3000);
     }
   }, [playerPokemon, cpuPokemon, bestCombo, roundBonus]);
+
+  useEffect(() => {
+    if (gameOver && !user) {
+      setModalOpen(true);
+    }
+  }, [gameOver, user]);
 
   const handlePlayerPokemonSelected = (pokemon) => {
     setPlayerPokemon({ ...pokemon, currentHP: pokemon.base.HP });
@@ -185,7 +200,7 @@ const BattleScreen = ({ user }) => {
                   />
                 </>
               )}
-              {gameOver && (
+              {gameOver && user && (
                 <UpdateFightInfo
                   user={user}
                   score={score}
@@ -198,6 +213,12 @@ const BattleScreen = ({ user }) => {
           )}
         </div>
       </div>
+      {/* {showParticles && <ParticleEffect showParticles={showParticles} />} */}
+      <NotLogged
+        isOpen={modalOpen}
+        message="Log in or sign up to keep track of your stats!"
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 };
