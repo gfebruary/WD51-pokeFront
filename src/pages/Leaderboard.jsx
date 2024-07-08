@@ -7,6 +7,7 @@ import LastBattleCard from "../components/LastBattleCard";
 const Leaderboard = ({ srvUrl }) => {
   const leadersUrl = `${srvUrl}/fighters/top`;
   const lastBattlesUrl = `${srvUrl}/battles/last`;
+
   const { data: topFighters, error, loading } = useImportData(leadersUrl);
   const { data: lastBattles, error: lbError, loading: lbLoading } = useImportData(lastBattlesUrl);
 
