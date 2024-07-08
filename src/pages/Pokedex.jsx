@@ -111,6 +111,31 @@ const Pokedex = () => {
             </button>
           ))}
         </div>
+        {/* -------------------------------------------- */}
+        <div className="text-center mb-4 bg-blue-300 p-4 rounded-lg shadow-md mx-auto max-w-sm">
+          <div className="mb-2 flex items-center">
+            <h2 className="text-xl font-bold text-blue-900 mr-2">
+              Total Pokémon:
+            </h2>
+            <div className="circle">
+              <p className="text-2xl font-bold text-white">{pokeData.length}</p>
+            </div>
+          </div>
+          {selectedType && (
+            <div className="flex items-center">
+              <h2 className="text-xl font-bold text-blue-900 mr-2">
+                {selectedType} Pokémon:
+              </h2>
+              <div className="circle">
+                <p className="text-2xl font-bold text-white">
+                  {filteredPokemons.length}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* -------------------------------------------- */}
         <Card
           pokemon={filteredPokemons}
           loading={loading}
