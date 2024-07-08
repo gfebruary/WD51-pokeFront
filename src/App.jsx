@@ -4,6 +4,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 //------------components
+import { AppStateProvider } from "./context/AppStateProvider";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -39,7 +40,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <AppStateProvider>
       <BrowserRouter>
         <Header logoText={appName} user={user} />
         <Routes>
@@ -67,7 +68,7 @@ const App = () => {
         </Routes>
         <Footer appName={appName} />
       </BrowserRouter>
-    </>
+    </AppStateProvider>
   );
 };
 

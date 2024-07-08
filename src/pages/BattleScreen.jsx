@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import useImportData from "../hooks/useImportData";
 import ChooseRandomPokemon from "../components/ChooseRandomPokemon";
 import DamageCalculation from "../components/DamageCalculation";
