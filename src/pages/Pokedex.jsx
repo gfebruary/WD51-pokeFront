@@ -88,8 +88,8 @@ const Pokedex = () => {
           <button
             className={`px-4 py-2 mb-4 md:mb-0 md:ml-4 text-lg rounded ${
               selectedType === ""
-                ? "bg-orange-500 text-green-500 font-bold"
-                : "bg-orange-300 text-green-500 font-bold hover:bg-orange-600 transition-colors duration-200"
+                ? "bg-orange-700 text-white font-bold"
+                : "bg-orange-500 text-white font-bold hover:bg-orange-600 transition-colors duration-200"
             }`}
             onClick={() => handleTypeChange("")}
           >
@@ -102,8 +102,8 @@ const Pokedex = () => {
               key={type}
               className={`px-4 py-2 rounded ${
                 selectedType === type
-                  ? "bg-green-500 text-orange-500 font-bold"
-                  : "bg-green-300 text-orange-500 font-bold hover:bg-green-600 transition-colors duration-200"
+                  ? "bg-blue-500 text-orange-500 font-bold"
+                  : "bg-blue-200 text-orange-500 font-bold hover:bg-blue-600 transition-colors duration-200"
               }`}
               onClick={() => handleTypeChange(type)}
             >

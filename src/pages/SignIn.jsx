@@ -40,14 +40,14 @@ const SignIn = ({ srvUrl, setUser }) => {
     >
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
         <img src={imageURL} alt="Pokemon" className="mb-4" />
-        <h1 className="text-3xl font-bold mb-4 text-blue-500">SIGN IN</h1>
+        <h1 className="text-3xl font-bold mb-4 text-orange-500">SIGN IN</h1>
         <form
           onSubmit={handleSubmit}
           className="bg-blue-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-sm"
         >
           <div className="mb-4">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className="block text-orange-500 text-sm font-bold mb-2"
               htmlFor="email"
             >
               Email address
@@ -66,7 +66,7 @@ const SignIn = ({ srvUrl, setUser }) => {
           </div>
           <div className="mb-6">
             <label
-              className="block text-blue-500 text-sm font-bold mb-2"
+              className="block text-orange-500 text-sm font-bold mb-2"
               htmlFor="password"
             >
               Password
@@ -84,11 +84,11 @@ const SignIn = ({ srvUrl, setUser }) => {
             />
           </div>
           <p className="mb-2 text-red-500 text-xs italic">
-            {loginError ? loginError : ' '}
+            {loginError ? loginError : " "}
           </p>
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline focus:outline-offset-2"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline focus:outline-offset-2"
           >
             Login
           </button>

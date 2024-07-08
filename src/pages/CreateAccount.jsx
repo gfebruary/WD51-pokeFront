@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const lablelStyle = "block text-blue-500 text-sm font-bold mb-2"
+const lablelStyle = "block text-orange-500 text-sm font-bold mb-2"
 const inputStyle = "shadow appearance-none border rounded w-full py-2 px-3 text-blue-600 leading-tight bg-white focus:outline focus:outline-offset-2"
 
 const backgroundImageURL = "https://wallpapercave.com/wp/wp12122370.jpg";
@@ -60,17 +60,14 @@ const SignUp = ({ srvUrl }) => {
       style={{ backgroundImage: `url(${backgroundImageURL})` }}
     >
       <div className="bg-white bg-opacity-75 p-8 rounded-lg shadow-lg flex flex-col items-center">
-        <h1 className="text-3xl font-bold mb-4 text-blue-500">SIGN UP</h1>
+        <h1 className="text-3xl font-bold mb-4 text-orange-500">SIGN UP</h1>
         <form
           onSubmit={handleSubmit}
           className="bg-blue-100 shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-sm"
         >
           {/*  Name */}
           <div className="mb-4">
-            <label
-              className={lablelStyle}
-              htmlFor="name"
-            >
+            <label className={lablelStyle} htmlFor="name">
               Name
             </label>
             <input
@@ -88,10 +85,7 @@ const SignUp = ({ srvUrl }) => {
 
           {/* Email */}
           <div className="mb-4">
-            <label
-              className={lablelStyle}
-              htmlFor="email"
-            >
+            <label className={lablelStyle} htmlFor="email">
               Email address
             </label>
             <input
@@ -109,10 +103,7 @@ const SignUp = ({ srvUrl }) => {
 
           {/* Password */}
           <div className="mb-4">
-            <label
-              className={lablelStyle}
-              htmlFor="password"
-            >
+            <label className={lablelStyle} htmlFor="password">
               Password
             </label>
             <input
@@ -132,10 +123,7 @@ const SignUp = ({ srvUrl }) => {
 
           {/* Confirm Password */}
           <div className="mb-2">
-            <label
-              className={lablelStyle}
-              htmlFor="confirmPassword"
-            >
+            <label className={lablelStyle} htmlFor="confirmPassword">
               Confirm Password
             </label>
             <input
@@ -155,13 +143,17 @@ const SignUp = ({ srvUrl }) => {
           </div>
 
           <p className="mb-2 text-red-500 text-xs italic">
-            {validationError ? validationError : pswConfirmError ? pswConfirmError : ' '}
+            {validationError
+              ? validationError
+              : pswConfirmError
+              ? pswConfirmError
+              : " "}
           </p>
 
           {/* Submit button */}
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline focus:outline-offset-2"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline focus:outline-offset-2"
           >
             Register
           </button>
