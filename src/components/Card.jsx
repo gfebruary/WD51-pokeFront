@@ -18,7 +18,7 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
     Fairy: "bg-pink-400",
     Psychic: "bg-pink-600",
     Ice: "bg-blue-200",
-    default: "bg-white",
+    default: "bg-purple-300",
   };
 
   return (
@@ -44,7 +44,7 @@ const Card = ({ pokemon, loading, infoPokemon }) => {
                   alt={item.name.english}
                   className="w-24 h-24 mx-auto"
                 />
-                <p className="text-sm text-white text-center font-bold text-2xl mb-2">
+                <p className="text-white text-center font-bold text-xl mb-2">
                   {item.type.join(", ")}
                 </p>
               </div>

@@ -77,16 +77,16 @@ const Pokedex = () => {
   return (
     <main className="bg-blue-100 p-4">
       <div className="container mx-auto p-4">
-        <div className="col-span-2">
+        <div className="flex flex-col items-center md:flex-row md:justify-between">
           <input
             type="text"
             placeholder="Search Pokémon..."
-            className="w-2/6 p-2 mb-4 border bg-white text-orange-500 font-bold border-blue-300 rounded"
+            className="w-full md:w-1/2 lg:w-1/3 p-2 mb-4 border bg-white text-orange-500 font-bold border-blue-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={searchTerm}
             onChange={handleSearchChange}
           />
           <button
-            className={`px-20 py-2 ml-10 text-xl rounded ${
+            className={`px-4 py-2 mb-4 md:mb-0 md:ml-4 text-lg rounded ${
               selectedType === ""
                 ? "bg-orange-500 text-green-500 font-bold"
                 : "bg-orange-300 text-green-500 font-bold hover:bg-orange-600 transition-colors duration-200"
@@ -95,34 +95,34 @@ const Pokedex = () => {
           >
             All Pokemons
           </button>
-          <div className="flex flex-wrap gap-2 mb-4 ">
-            {buttonTypes.map((type) => (
-              <button
-                key={type}
-                className={`px-6 py-2 rounded ${
-                  selectedType === type
-                    ? "bg-green-500 text-orange-500 font-bold"
-                    : "bg-green-300 text-orange-500 font-bold hover:bg-green-600 transition-colors duration-200"
-                }`}
-                onClick={() => handleTypeChange(type)}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-          <Card
-            pokemon={filteredPokemons}
-            loading={loading}
-            infoPokemon={handlePokemonClick}
-          />
         </div>
+        <div className="flex flex-wrap justify-center gap-2 mb-4">
+          {buttonTypes.map((type) => (
+            <button
+              key={type}
+              className={`px-4 py-2 rounded ${
+                selectedType === type
+                  ? "bg-green-500 text-orange-500 font-bold"
+                  : "bg-green-300 text-orange-500 font-bold hover:bg-green-600 transition-colors duration-200"
+              }`}
+              onClick={() => handleTypeChange(type)}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
+        <Card
+          pokemon={filteredPokemons}
+          loading={loading}
+          infoPokemon={handlePokemonClick}
+        />
       </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2 lg:w-1/3 relative rotate-card">
+          <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2 lg:w-1/3 relative">
             <button
-              className="absolute top-0 right-0 m-4 text-2xl font-bold text-gray-600 hover:text-gray-800"
+              className="absolute top-0 right-0 mr-4 text-4xl font-bold text-red-600 hover:text-gray-800"
               onClick={closeModal}
             >
               &times;
@@ -136,5 +136,3 @@ const Pokedex = () => {
 };
 
 export default Pokedex;
-
-
